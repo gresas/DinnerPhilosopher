@@ -13,6 +13,7 @@ void Semaphore::wait() {
 		Tasks::reschedule();
 	} else
 		_count--;
+	// return _count;
 }
 
 void Semaphore::signal() {
@@ -21,5 +22,6 @@ void Semaphore::signal() {
 		_count++;
 	else
 		Tasks::ready(_waiting.remove());
+	// return _count;
 }
 
