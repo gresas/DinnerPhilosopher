@@ -2,11 +2,11 @@
 
 #define STACK	100
 #define MAX	5
-#define LED1	6
-#define LED2	7
-#define LED3	8
-#define LED4	9
-#define LED5	10
+#define LED1	8
+#define LED2	9
+#define LED3	10
+#define LED4	11
+#define LED5	12
 
 #elif defined(__MSP430FR5739__)
 
