@@ -18,7 +18,7 @@ protected:
 	virtual void setup() {}
 	virtual void loop() {}
 
-	void create(void *stack);
+	void create(void *stack);		
 private:
 	static void entry();
 	jmp_buf _context;
@@ -67,7 +67,7 @@ public:
 	/*
 	 * initialises a task and makes it runnable.
 	 */
-	static inline void start(task &t) { 
+	static inline void start(task &t) { 			// Prepara fila de tarefas Tasks::_ready
 		t.begin();
 		ready(&t); 
 	}

@@ -3,6 +3,7 @@
 
 class Semaphore {
 public:
+	unsigned _count;
 	/*
 	 * initialises a (counting) semaphore.
 	 */
@@ -23,8 +24,8 @@ public:
 	void wait();
 
 private:
-	task_queue _waiting;
-	unsigned _count;
+	task_queue _waiting;			// Fila de tarefas bloqueadas
+	
 };
 
 #endif
