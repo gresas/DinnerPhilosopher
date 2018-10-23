@@ -1,8 +1,6 @@
 #include "config.h"
 #include <Tasks.h>
-
 #include <Interrupted.h>
-
 #include <LiquidCrystal.h>
 
 static byte buttonPin = 13;
