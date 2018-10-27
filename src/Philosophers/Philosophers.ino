@@ -20,7 +20,7 @@ void eating(byte id, byte weight) {
 
 	digitalWrite(leds[id], LOW);
 
-	Tasks::delay(MAX * random(101, 301));
+	Tasks::delay(MAX * random(101, 501));
 
 	//digitalWrite(leds[id], LOW);
 }
@@ -29,7 +29,7 @@ void thinking(byte id, byte weight) {
 
   digitalWrite(leds[id], HIGH);
 
-  Tasks::delay(MAX * random(101, 301));
+  Tasks::delay(MAX * random(101, 501));
 
   // digitalWrite(leds[id], LOW);
 }
