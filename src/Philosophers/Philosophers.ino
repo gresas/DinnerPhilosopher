@@ -23,7 +23,7 @@ void lcdPrint(){
   lcd.print(buff);
 }
 
-void serialPrint(int _id){
+void serialPrint(byte _id){
   
   char buff[16];
   sprintf(buff, "|%u|%u|%u|%u|%u| - %d", forks[0]._count, forks[1]._count, forks[2]._count, forks[3]._count, forks[4]._count, _id);
@@ -34,10 +34,12 @@ void eating(byte id, byte weight) {
   Serial.print(id);
   Serial.println(" is eating");
 	digitalWrite(leds[id], LOW);
-  lcdPrint();
+  // lcdPrint();
+  Tasks::delay(MAX * random(101, 501)); 
+  // Tasks::delay(MAX * random(11, 101));              // Causa deadlock e starvation nas threads 0 e 1
 
-  Tasks::delay(MAX * random(101, 501));
-	//digitalWrite(leds[id], LOW);
+  Serial.print(id);
+  Serial.println(" - stop eating");
 }
 
 void thinking(byte id, byte weight) {
@@ -45,7 +47,10 @@ void thinking(byte id, byte weight) {
   Serial.println(" is thinking");
   digitalWrite(leds[id], HIGH);
   Tasks::delay(MAX * random(101, 501));
-  // digitalWrite(leds[id], LOW);
+  // Tasks::delay(MAX * random(11, 101));             // Causa deadlock e starvation nas threads 0 e 1
+
+  Serial.print(id);
+  Serial.println(" - stop thinking");
 }
 
 class Philosopher: public Task<50> {
@@ -57,24 +62,16 @@ public:
 	void loop() {    
     thinking(_id, _w++);
 
-    // Serial.print(_id);
-    // Serial.println(" <----------- Left Fork\n");
-		forks[_id - 1].wait();
-    
-    // serialPrint(_id);
-		// Serial.println(" <----------- Right Fork\n");
-		forks[_id].wait();
+		forks[_id - 1].wait(_id);
+    serialPrint(_id);  
+		forks[_id].wait(_id);
     serialPrint(_id);
     
 		eating(_id, _w++);
 
-    // Serial.print(_id);
-    // Serial.println(" -----------> Right Fork\n");
-		forks[_id].signal();
+		forks[_id - 1].signal(_id);
 		serialPrint(_id);
-    // Serial.print(_id);
-    // Serial.println(" -----------> Left Fork\n");
-		forks[_id - 1].signal();
+		forks[_id].signal(_id);
     serialPrint(_id);	
 	}
 
@@ -91,7 +88,7 @@ void setup() {
 	Tasks::init();
 	Tasks::set_idle_handler(timer_sleep);
 	for (int i = 0; i < MAX; i++) {
-		forks[i].signal();
+		forks[i].signal(i);
 		pinMode(leds[i], OUTPUT);
 	}
 	for (int i = 0; i < MAX-1; i++)
@@ -104,15 +101,15 @@ void loop() {
 	static byte weight;
   thinking(0, weight++);
   
-  forks[0].wait();
+  forks[0].wait(0);
   serialPrint(0);
-  forks[MAX-1].wait();
+  forks[MAX-1].wait(0);
   serialPrint(0);
   
   eating(0, weight++);
 
-  forks[0].signal();
+  forks[0].signal(0);
   serialPrint(0);
-  forks[MAX-1].signal();
+  forks[MAX-1].signal(0);
   serialPrint(0);
 }

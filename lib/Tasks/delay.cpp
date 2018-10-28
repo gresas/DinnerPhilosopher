@@ -18,7 +18,7 @@ void task_queue::insert(task *p, task *t) {
 	}
 }
 
-#define MAX_DELAY       0xf000000
+#define MAX_DELAY       0xf000f00
 
 void Tasks::delay(unsigned long ms) {
 	unsigned long now = millis();

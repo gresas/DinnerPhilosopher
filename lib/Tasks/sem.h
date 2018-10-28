@@ -15,13 +15,13 @@ public:
 	 * if a task is waiting on the semaphore, releases it, otherwise
 	 * increments its count.
  	 */
-	void signal();
+	void signal(byte _id);
 
 	/*
 	 * if the semaphore's count is positive, decrements it and continues,
 	 * otherwise blocks.
 	 */
-	void wait();
+	void wait(byte _id);
 
 private:
 	task_queue _waiting;			// Fila de tarefas bloqueadas
