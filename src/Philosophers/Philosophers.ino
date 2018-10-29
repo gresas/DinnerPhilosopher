@@ -16,6 +16,13 @@ Semaphore forks[MAX];
 static byte ids = 1;
 static byte leds[] = { LED1, LED2, LED3, LED4, LED5 };
 
+void lcdPrint(){
+  char buff[16];
+  lcd.setCursor(3, 0);
+  sprintf(buff, "|%u|%u|%u|%u|%u|", forks[0]._count, forks[1]._count, forks[2]._count, forks[3]._count, forks[4]._count);
+  lcd.print(buff);
+}
+
 void eating(byte id, byte weight) {
 
 	digitalWrite(leds[id], LOW);
@@ -41,6 +48,7 @@ public:
 	}
 
 	void loop() {
+    lcdPrint();
     thinking(_id, _w++);
   
 		forks[_id - 1].wait();
@@ -60,6 +68,8 @@ Philosopher philosophers[MAX-1];
 
 void setup() {
 
+  lcd.begin(16, 2);
+
 	Tasks::init();
 	Tasks::set_idle_handler(timer_sleep);
 	for (int i = 0; i < MAX; i++) {
@@ -68,9 +78,13 @@ void setup() {
 	}
 	for (int i = 0; i < MAX-1; i++)
 		Tasks::start(philosophers[i]);
+
+  Serial.begin(9600);
 }
 
 void loop() {
+  lcdPrint();
+
 	static byte weight;
   thinking(0, weight++);
   
