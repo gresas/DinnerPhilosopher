@@ -6,7 +6,6 @@ void timer_sleep(void);
 
 class task {
 public:
-	// FIXME: clean up access permissions
 	struct task *next;
 	unsigned long wake;
 

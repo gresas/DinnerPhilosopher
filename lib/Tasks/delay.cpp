@@ -6,7 +6,7 @@
 
 static task_queue delaying;
 
-void task_queue::insert(task *p, task *t) {
+void task_queue::insert(task *p, task *t) {		// Método de inserção de tarefas na fila
 	if (p) {
 		t->next = p->next;
 		p->next = t;
@@ -18,7 +18,7 @@ void task_queue::insert(task *p, task *t) {
 	}
 }
 
-#define MAX_DELAY       0xf000000
+#define MAX_DELAY       0xf000f00
 
 void Tasks::delay(unsigned long ms) {
 	unsigned long now = millis();

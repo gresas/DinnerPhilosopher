@@ -2,12 +2,6 @@
 #include <Tasks.h>
 #include <Interrupted.h>
 #include <LiquidCrystal.h>
-
-static byte buttonPin = 13;
-int buttonState;             // the current reading from the input pin
-int lastButtonState = LOW;   // the previous reading from the input pin
-unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
-unsigned long debounceDelay = 300;    // the debounce time; increase if the output flickers
  
 //Define os pinos que serão utilizados para ligação ao display
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -28,8 +22,6 @@ void eating(byte id, byte weight) {
 	digitalWrite(leds[id], LOW);
 
 	Tasks::delay(MAX * random(101, 501));
-
-	//digitalWrite(leds[id], LOW);
 }
 
 void thinking(byte id, byte weight) {
@@ -37,8 +29,6 @@ void thinking(byte id, byte weight) {
   digitalWrite(leds[id], HIGH);
 
   Tasks::delay(MAX * random(101, 501));
-
-  // digitalWrite(leds[id], LOW);
 }
 
 class Philosopher: public Task<50> {
@@ -79,7 +69,7 @@ void setup() {
 	for (int i = 0; i < MAX-1; i++)
 		Tasks::start(philosophers[i]);
 
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 
 void loop() {

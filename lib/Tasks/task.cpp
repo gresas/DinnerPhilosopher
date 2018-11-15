@@ -28,7 +28,7 @@ runnable Tasks::_idle_handler;
 void Tasks::reschedule(void) {
 	task * volatile run;
 	while (!(run = _ready.remove()))
-		_idle_handler();				// Execução do "timer_spleep();" de cada tarefa na fila de ready
+		_idle_handler();				// Execução do "timer_spleep();" e bloqueio de cada tarefa na fila de ready
 
 	if (run != _curr)
 		if (_curr->save() == 0) {
